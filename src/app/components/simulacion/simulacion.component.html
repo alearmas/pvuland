@@ -1,0 +1,49 @@
+<div class="container" style="text-align: center;">
+    <h4 style="margin-top: 20px;">Simula tu conuco</h4>
+
+    <div class="container">
+        <form (ngSubmit)="addPlant()">
+            <div class="input-group input-group-sm mb-3">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="plant" [(ngModel)]="newPlant.plant" [ngModelOptions]="{standalone: true}">
+                <option selected>Selecciona:</option>
+                <option value="Mother Tree">Mother Tree</option>
+                <option value="Sunflower Mama">Sunflower Mama</option>
+                <option value="Plant">Plant</option>
+                <option value="Sunflower">Sunflower</option>
+              </select>
+                <span class="input-group-text" id="inputGroup-sizing-sm">LE</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="le" [(ngModel)]="newPlant.le" name="le">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Hours</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="hours" [(ngModel)]="newPlant.hours" name="hours">
+                <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Planta</th>
+                    <th scope="col">LE</th>
+                    <th scope="col">Hours</th>
+                    <th scope="col">LE/Month</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let plant of plants; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ plant.plant }}</td>
+                    <td>{{ plant.le }}</td>
+                    <td>{{ plant.hours }}</td>
+                    <td>{{ profitPerMonth(plant.hours, plant.le) }}</td>
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-circle">X</button>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

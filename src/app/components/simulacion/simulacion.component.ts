@@ -4,10 +4,10 @@ interface Plant {
   plant: string,
   le: number,
   hours: number,
-  profit: number,
-  potUsed: number,
-  seedUsed: number,
-  waterUsed: number
+  profit?: number,
+  pot?: number,
+  seed?: number,
+  water?: number
 }
 
 @Component({
@@ -39,9 +39,9 @@ export class SimulacionComponent {
     le: 0,
     hours: 0,
     profit: 0,
-    potUsed: 0,
-    seedUsed: 0,
-    waterUsed:0
+    pot: 0,
+    seed: 0,
+    water: 0
   }
 
   addPlant() {
@@ -55,11 +55,7 @@ export class SimulacionComponent {
       this.newPlant = {
         plant: '',
         le: 0,
-        hours: 0,
-        profit: this.profitPerMonth(this.hours, this.le),
-        potUsed: this.potPerMonth(this.hours),
-        seedUsed: this.seedsPerMonth(this.hours),
-        waterUsed: this.waterPerMonth()
+        hours: 0
       }
     } else {
       alert('maximum capacity reached');
@@ -81,7 +77,7 @@ export class SimulacionComponent {
   potSum():number {
     let suma = 0;
     for (let i = 1; i < this.plants.length; i++) {
-        suma += this.newPlant.potUsed;
+        //suma += this.newPlant.potUsed;
     }
     return suma;
   }
@@ -89,7 +85,7 @@ export class SimulacionComponent {
   seedSum():number {
     let suma = 0;
     for (let i = 1; i < this.plants.length; i++) {
-        suma += this.newPlant.seedUsed;
+        //suma += this.newPlant.seedUsed;
     }
     return suma;
   }
@@ -97,7 +93,7 @@ export class SimulacionComponent {
   waterSum():number {
     let suma = 0;
     for (let i = 0; i < this.plants.length; i++) {
-        suma += this.newPlant.waterUsed;
+        //suma += this.newPlant.waterUsed;
     }
     return suma;
   }
@@ -117,18 +113,14 @@ export class SimulacionComponent {
 
   private potPerMonth(hours:number):number {
     let pot = this.smallPotCost;
-    let times = this.timesInAMonth(hours);
-    return pot * times;
+    let monthly = this.newPlant.plant == 'Sunflower' ? pot * 10 : pot * 5;
+    return monthly;
   }
 
   private seedsPerMonth(hours:number):number {
-    let seed = this.sunflowerSeed;
-    let seedBig = this.mamaSeed;
-    let times = this.timesInAMonth(hours);
-    if(this.newPlant.plant == 'Sunflower') {
-      return seed * times;
-    } else {
-      return seedBig * times;
-    }
+    let small = this.sunflowerSeed;
+    let big = this.mamaSeed;
+    let monthly = this.newPlant.plant == 'Sunflower' ? small * 10 : big * 5;
+    return monthly;
   }
 }

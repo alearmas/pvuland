@@ -23,32 +23,28 @@ export class SimulacionComponent {
 
   isShown: boolean = false;
 
-  waterCost: number = 50;
-  waterQuantity: number = 100;
-  scarecrowCost: number = 20;
-  scarecrowQuantity: number = 20;
-  smallPotCost: number = 50;
-  bigPotCost: number = 50;
-  sunflowerSeed: number = 100;
-  mamaSeed: number = 200;
-
+  private waterCost: number = 50;
+  private waterQuantity: number = 100;
+  private scarecrowCost: number = 20;
+  private scarecrowQuantity: number = 20;
+  private smallPotCost: number = 50;
+  private bigPotCost: number = 100;
+  private sunflowerSeed: number = 100;
+  private mamaSeed: number = 200;
+e
   plants: Plant[] = [];
 
   newPlant: Plant = {
     plant: '',
     le: 0,
-    hours: 0,
-    profit: 0,
-    pot: 0,
-    seed: 0,
-    water: 0
+    hours: 0
   }
 
   addPlant() {
     if (this.newPlant.plant.trim().length === 0) { return; }
     if (this.plants.length <= 5) {
       this.plants.push(this.newPlant);
-      this.profitPerMonth(this.hours,this.le);
+      this.profitPerMonth(this.hours, this.le);
       this.potPerMonth(this.hours);
       this.seedsPerMonth(this.hours);
       this.waterPerMonth();
@@ -64,63 +60,74 @@ export class SimulacionComponent {
 
   deletePlant() { }
 
-  hoursToDays(hours:number):number {
+  hoursToDays(hours: number): number {
     let result = hours / 24;
     return result;
   }
 
-  profitPerMonth(hours:number, le:number):number {
+  profitPerMonth(hours: number, le: number): number {
     let result = Math.round(this.timesInAMonth(hours) * le);
+    this.newPlant.profit = result;
     return result;
   }
 
-  potSum():number {
-    let suma = 0;
-    for (let i = 1; i < this.plants.length; i++) {
-        //suma += this.newPlant.potUsed;
-    }
-    return suma;
-  }
-
-  seedSum():number {
-    let suma = 0;
-    for (let i = 1; i < this.plants.length; i++) {
-        //suma += this.newPlant.seedUsed;
-    }
-    return suma;
-  }
-
-  waterSum():number {
+  potSum(): number {
     let suma = 0;
     for (let i = 0; i < this.plants.length; i++) {
-        //suma += this.newPlant.waterUsed;
+      suma += this.plants[i].pot;
     }
     return suma;
   }
 
-  private timesInAMonth(hours:number):number {
+  seedSum(): number {
+    let suma = 0;
+    for (let i = 0; i < this.plants.length; i++) {
+      suma += this.plants[i].seed;
+    }
+    return suma;
+  }
+
+  waterSum(): number {
+    let suma = 0;
+    for (let i = 0; i < this.plants.length; i++) {
+      suma += this.plants[i].water;
+    }
+    return suma;
+  }
+
+  private timesInAMonth(hours: number): number {
     let days = this.hoursToDays(hours);
     let times = 30 / days;
     return times;
   }
 
-  private waterPerMonth():number {
+  private waterPerMonth(): void {
     let water = 60;
     let drops = this.waterCost / this.waterQuantity;
     let monthly = drops * water;
-    return monthly;
+    this.newPlant.water = monthly;
+    console.log(this.plants); // RECUERDA BORRARLO
   }
 
-  private potPerMonth(hours:number):number {
+  private potPerMonth(hours: number): void { 
     let pot = this.smallPotCost;
-    let monthly = this.newPlant.plant == 'Sunflower' ? pot * 10 : pot * 5;
-    return monthly;
+    let bigPot = this.bigPotCost;
+    if (this.newPlant.plant == 'Sunflower' || this.newPlant.plant == 'Sunflower Mama') {
+      let monthly = this.newPlant.plant == 'Sunflower' ? pot * 10 : pot * 5;
+      this.newPlant.pot = monthly;
+    } else {
+      this.newPlant.pot = bigPot;
+    }
   }
 
-  private seedsPerMonth(hours:number):number {
-    let small = this.sunflowerSeed;
-    let big = this.mamaSeed;
-    let monthly = this.newPlant.plant == 'Sunflower' ? small * 10 : big * 5;
-    return monthly;
+  private seedsPerMonth(hours: number): void {
+    if (this.newPlant.plant == 'Sunflower' || this.newPlant.plant == 'Sunflower Mama') {
+      let small = this.sunflowerSeed;
+      let big = this.mamaSeed;
+      let monthly = this.newPlant.plant == 'Sunflower' ? small * 10 : big * 5;
+      this.newPlant.seed = monthly;
+    } else {
+      this.newPlant.seed = 0;
+    }
   }
 }

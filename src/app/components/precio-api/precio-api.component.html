@@ -1,1 +1,16 @@
-<p>precio-api works!</p>
+<div class="card">
+    <div class="card-body" *ngFor="let coin of coins">
+        <div class="left">
+            <img [src]="coin.image" alt="{{coin.name}}">
+        </div>
+        <div class="right">
+            <p><small>{{ coin.name }}</small> (<strong>{{ coin.symbol | uppercase }}</strong>)</p>
+            <div class="prices">
+                <h2><strong>{{ coin.current_price | currency }}</strong> | </h2>
+                <h5 [ngClass]="coin.price_change_percentage_24h > 0
+                    ? 'text-success': 'text-danger'"><strong>{{ coin.price_change_percentage_24h |
+                        number:'2.0-2'}}</strong></h5>
+            </div>
+        </div>
+    </div>
+</div>

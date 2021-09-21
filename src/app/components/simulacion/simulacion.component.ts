@@ -31,7 +31,7 @@ export class SimulacionComponent {
   private bigPotCost: number = 100;
   private sunflowerSeed: number = 100;
   private mamaSeed: number = 200;
-e
+
   plants: Plant[] = [];
 
   newPlant: Plant = {

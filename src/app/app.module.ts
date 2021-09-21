@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
 import { SimulacionComponent } from './components/simulacion/simulacion.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SeasonsComponent } from './components/seasons/seasons.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { FooterComponent } from './components/footer/footer.component';
     PronosticoComponent,
     HeaderComponent,
     SimulacionComponent,
-    FooterComponent
+    FooterComponent,
+    SeasonsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

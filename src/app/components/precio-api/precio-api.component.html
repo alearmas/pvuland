@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card border-light">
     <div class="card-body" *ngFor="let coin of coins">
         <div class="left">
             <img [src]="coin.image" alt="{{coin.name}}">
@@ -9,7 +9,7 @@
                 <h2><strong>{{ coin.current_price | currency }}</strong> | </h2>
                 <h5 [ngClass]="coin.price_change_percentage_24h > 0
                     ? 'text-success': 'text-danger'"><strong>{{ coin.price_change_percentage_24h |
-                        number:'2.0-2'}}</strong></h5>
+                        number:'2.0-2'}}%</strong></h5>
             </div>
         </div>
     </div>

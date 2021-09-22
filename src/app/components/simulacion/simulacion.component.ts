@@ -43,19 +43,53 @@ export class SimulacionComponent {
   addPlant() {
     if (this.newPlant.plant.trim().length === 0) { return; }
     if (this.plants.length <= 5) {
-      this.plants.push(this.newPlant);
-      this.profitPerMonth(this.hours, this.le);
-      this.potPerMonth(this.hours);
-      this.seedsPerMonth(this.hours);
-      this.waterPerMonth();
+      this.plants.push(this.newPlant);    
       this.newPlant = {
         plant: '',
         le: 0,
-        hours: 0
+        hours: 0,
+        pot: this.bigPotCost,
+        profit: this.profitPerMonth(this.hours, this.le),
+        seed: 0,
+        water: this.waterPerMonth()
       }
+      console.log(this.newPlant);
     } else {
       alert('maximum capacity reached');
     }
+  }
+
+  addSapling() {
+    if (this.newPlant.plant.trim().length === 0) { return; }
+    this.plants.push(this.newPlant);
+    this.profitPerMonth(this.hours, this.le);
+    this.waterPerMonth();
+    this.newPlant = {
+      plant: 'Sunflower',
+      le: 250,
+      hours: 72,
+      profit: this.le * this.hours,
+      pot: this.smallPotCost * 10,
+      seed: this.sunflowerSeed * 10,
+      water: 60
+    } 
+  }
+
+  addMama() {
+    if (this.newPlant.plant.trim().length === 0) { return; }
+    this.plants.push(this.newPlant);
+    this.profitPerMonth(this.hours, this.le);
+    this.waterPerMonth();
+    this.newPlant = {
+      plant: 'Sunflower Mama',
+      le: 850,
+      hours: 144,
+      profit: this.profitPerMonth(this.hours, this.le),
+      pot: this.smallPotCost * 5,
+      seed: this.mamaSeed * 5,
+      water: 60
+    }
+    console.log(this.newPlant);
   }
 
   deletePlant() { }
@@ -67,32 +101,7 @@ export class SimulacionComponent {
 
   profitPerMonth(hours: number, le: number): number {
     let result = Math.round(this.timesInAMonth(hours) * le);
-    this.newPlant.profit = result;
     return result;
-  }
-
-  potSum(): number {
-    let suma = 0;
-    for (let i = 0; i < this.plants.length; i++) {
-      suma += this.plants[i].pot;
-    }
-    return suma;
-  }
-
-  seedSum(): number {
-    let suma = 0;
-    for (let i = 0; i < this.plants.length; i++) {
-      suma += this.plants[i].seed;
-    }
-    return suma;
-  }
-
-  waterSum(): number {
-    let suma = 0;
-    for (let i = 0; i < this.plants.length; i++) {
-      suma += this.plants[i].water;
-    }
-    return suma;
   }
 
   private timesInAMonth(hours: number): number {
@@ -101,33 +110,10 @@ export class SimulacionComponent {
     return times;
   }
 
-  private waterPerMonth(): void {
+  private waterPerMonth() {
     let water = 60;
     let drops = this.waterCost / this.waterQuantity;
     let monthly = drops * water;
-    this.newPlant.water = monthly;
-    console.log(this.plants); // RECUERDA BORRARLO
-  }
-
-  private potPerMonth(hours: number): void { 
-    let pot = this.smallPotCost;
-    let bigPot = this.bigPotCost;
-    if (this.newPlant.plant == 'Sunflower' || this.newPlant.plant == 'Sunflower Mama') {
-      let monthly = this.newPlant.plant == 'Sunflower' ? pot * 10 : pot * 5;
-      this.newPlant.pot = monthly;
-    } else {
-      this.newPlant.pot = bigPot;
-    }
-  }
-
-  private seedsPerMonth(hours: number): void {
-    if (this.newPlant.plant == 'Sunflower' || this.newPlant.plant == 'Sunflower Mama') {
-      let small = this.sunflowerSeed;
-      let big = this.mamaSeed;
-      let monthly = this.newPlant.plant == 'Sunflower' ? small * 10 : big * 5;
-      this.newPlant.seed = monthly;
-    } else {
-      this.newPlant.seed = 0;
-    }
+    return monthly;
   }
 }

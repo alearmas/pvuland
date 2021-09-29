@@ -85,9 +85,13 @@ export class SimulacionComponent {
     this.isEmpty = true;
   }
 
-  deletePlant() {
-    
-  } 
+  deletePlant(key: number) {
+    this.plants.splice(key, 1);
+    if(this.plants.length == 0) {
+      this.isEmpty = false;
+    }
+
+  }
 
   clearPlant() {
     this.plants = [];

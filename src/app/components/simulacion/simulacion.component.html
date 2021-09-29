@@ -4,6 +4,8 @@
     <div class="container">
         <form (ngSubmit)="addPlant()">
             <div class="input-group input-group-sm mb-3">
+                <button class="btn btn-dark" (click)="addSapling()">Add sapling</button>
+                <button class="btn btn-dark" (click)="addMama()">Add mama</button>
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="plant" [(ngModel)]="newPlant.plant" [ngModelOptions]="{standalone: true}">
                 <option selected>Selecciona:</option>
                 <option value="Mother Tree">Mother Tree</option>
@@ -16,13 +18,11 @@
                 <button type="submit" class="btn btn-primary btn-sm">Agregar</button>
             </div>
         </form>
-        <button class="btn btn-success" type="button" (click)="addSapling()">Add sapling</button>
-        <button class="btn btn-success" type="button" (click)="addMama()">Add sapling mama</button>
     </div>
 
     <hr>
 
-    <div class="container">
+    <div class="container" *ngIf="isEmpty" id="divEmpty">
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -31,6 +31,9 @@
                     <th scope="col">LE</th>
                     <th scope="col">Hours</th>
                     <th scope="col">LE/Month</th>
+                    <th scope="col">Agua</th>
+                    <th scope="col">Macetas</th>
+                    <th scope="col">Semillas</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,33 +42,14 @@
                     <td>{{ plant.plant }}</td>
                     <td>{{ plant.le }}</td>
                     <td>{{ plant.hours }}</td>
-                    <td>{{ profitPerMonth(plant.hours, plant.le) }}</td>
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-circle">X</button>
+                    <td class="table-success">{{ profitPerMonth(plant.hours, plant.le) }}</td>
+                    <td class="table-danger">{{ plant.water }}</td>
+                    <td class="table-danger">{{ plant.pot }}</td>
+                    <td class="table-danger">{{ plant.seed }}</td>
+                    <button type="button" (click)="deletePlant()" class="btn btn-outline-danger btn-sm btn-circle">X</button>
                 </tr>
             </tbody>
         </table>
+        <button (click)="clearPlant()" class="btn btn-danger">Clear Farm</button>
     </div>
-
-    <hr>
-
-    <div class="container">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Agua</th>
-                    <th scope="col">Macetas</th>
-                    <th scope="col">Semillas</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="table-danger" *ngFor="let plant of plants">
-                    <td>{{ plant.water }}</td>
-                    <td>{{ plant.pot }}</td>
-                    <td>{{ plant.seed }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
 </div>

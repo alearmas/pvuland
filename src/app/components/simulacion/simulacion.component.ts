@@ -21,7 +21,7 @@ export class SimulacionComponent {
   @Input()
   le!: number;
 
-  isShown: boolean = false;
+  isEmpty: boolean = false;
 
   private waterCost: number = 50;
   private waterQuantity: number = 100;
@@ -43,7 +43,7 @@ export class SimulacionComponent {
   addPlant() {
     if (this.newPlant.plant.trim().length === 0) { return; }
     if (this.plants.length <= 5) {
-      this.plants.push(this.newPlant);    
+      this.plants.push(this.newPlant);
       this.newPlant = {
         plant: '',
         le: 0,
@@ -53,33 +53,26 @@ export class SimulacionComponent {
         seed: 0,
         water: this.waterPerMonth()
       }
-      console.log(this.newPlant);
+      this.isEmpty = true;
     } else {
       alert('maximum capacity reached');
     }
   }
 
   addSapling() {
-    if (this.newPlant.plant.trim().length === 0) { return; }
-    this.plants.push(this.newPlant);
-    this.profitPerMonth(this.hours, this.le);
-    this.waterPerMonth();
     this.newPlant = {
       plant: 'Sunflower',
       le: 250,
       hours: 72,
-      profit: this.le * this.hours,
+      profit: this.profitPerMonth(this.hours, this.le),
       pot: this.smallPotCost * 10,
       seed: this.sunflowerSeed * 10,
-      water: 60
-    } 
+      water: this.waterPerMonth()
+    }
+    this.isEmpty = true;
   }
 
   addMama() {
-    if (this.newPlant.plant.trim().length === 0) { return; }
-    this.plants.push(this.newPlant);
-    this.profitPerMonth(this.hours, this.le);
-    this.waterPerMonth();
     this.newPlant = {
       plant: 'Sunflower Mama',
       le: 850,
@@ -87,12 +80,19 @@ export class SimulacionComponent {
       profit: this.profitPerMonth(this.hours, this.le),
       pot: this.smallPotCost * 5,
       seed: this.mamaSeed * 5,
-      water: 60
+      water: this.waterPerMonth()
     }
-    console.log(this.newPlant);
+    this.isEmpty = true;
   }
 
-  deletePlant() { }
+  deletePlant() {
+    
+  } 
+
+  clearPlant() {
+    this.plants = [];
+    this.isEmpty = false;
+  } 
 
   hoursToDays(hours: number): number {
     let result = hours / 24;
@@ -102,6 +102,10 @@ export class SimulacionComponent {
   profitPerMonth(hours: number, le: number): number {
     let result = Math.round(this.timesInAMonth(hours) * le);
     return result;
+  }    
+
+  emptyList() {
+    let result = this.plants.length == 0 ? false : true;
   }
 
   private timesInAMonth(hours: number): number {
